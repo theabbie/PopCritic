@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "codrcrew"
+  },
+  "targets": {
+    "codrcrew": {
+      "hosting": {
+        "popcritic": [
+          "popcritic"
+        ]
+      }
+    }
+  }
+}
