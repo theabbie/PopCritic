@@ -1,0 +1,33 @@
+{
+  "name": "popcritic",
+  "version": "1.0.0",
+  "description": "\u0016Movies Reviewed by people, for people",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ech \"working\"\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Do\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theabbie/PopCritic.git"
+  },
+  "keywords": [
+    "popcritic"
+  ],
+  "author": "popcritic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theabbie/PopCritic/issues"
+  },
+  "homepage": "https://github.com/theabbie/PopCritic#readme"
+}
