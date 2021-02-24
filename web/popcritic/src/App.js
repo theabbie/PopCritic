@@ -1,5 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SearchAppBar from './header';
+import Home from './home';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 export default class App extends React.Component {
   constructor() {
@@ -7,6 +16,11 @@ export default class App extends React.Component {
     this.state = {color: "red"};
   }
   render() {
-    return <h2>Hello World</h2>;
+    return (
+    	<div>
+    	<SearchAppBar />
+    	<Home />
+    	</div>
+    );
   }
 }

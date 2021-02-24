@@ -1,6 +1,6 @@
 # PopCritic
 
-![PopCritic}(https://popcritic.web.app/share.png)
+![PopCritic](https://popcritic.web.app/share.png)
 
 > Movies Reviewed by people, for people
 
