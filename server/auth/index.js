@@ -59,6 +59,7 @@ class Auth {
   	var db = new DB();
     await db.query("INSERT INTO Users (user_id,join_date,authenticity,email,pic) VALUES ($1,current_timestamp,0,$2,$3) ON CONFLICT DO NOTHING;",[user.id,user.email,user.picture]);
     var token = crypto.randomBytes(8).toString('hex');
+    await db.query("DELETE FROM Sessions WHERE user_id=$1",[user.id]);
     await db.query("INSERT INTO Sessions (session_id,user_id,created) VALUES ($1,$2,current_timestamp)",[token,user.id]);
     await db.end();
     return token;

@@ -12,51 +12,74 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="TheAbbie" />
     <meta name="subject" content="Movies Reviewed by people, for people">
-    <meta name="description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next" />
+    <meta name="description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next" data-react-helmet="true" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta property="og:type" content="website">
-	<meta property="og:title" content="PopCritic - Movies Reviewed by people, for people">
-	<meta property="og:description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next">
-	<meta property="og:image" content="%PUBLIC_URL%/share.png">
-	<meta property="og:url" content="https://popcritic.web.app">
-	<meta property="og:image:alt" content="PopCritic - Movies Reviewed by people, for people">
-	<meta property="og:site_name" content="PopCritic">
-	<meta name="twitter:url" content="https://popcritic.web.app">
-	<meta name="twitter:title" content="PopCritic - Movies Reviewed by people, for people">
-	<meta name="twitter:description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next">
-	<meta name="twitter:image" content="%PUBLIC_URL%/share.png">
-	<meta name="twitter:image:alt" content="PopCritic - Movies Reviewed by people, for people">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="language" content="English">
-	<meta name="google-site-verification" content="obXyOLCuT6lytSBc-P5VQTNQB-CewAZ_7YnL8RP-XCk" />
-	<link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/logo192.png">
-	<link rel="icon" type="image/png" sizes="512x512" href="%PUBLIC_URL%/logo512.png">
+  	<meta property="og:title" content="PopCritic - Movies Reviewed by people, for people">
+  	<meta property="og:description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next">
+  	<meta property="og:image" content="%PUBLIC_URL%/share.png">
+  	<meta property="og:url" content="https://popcritic.web.app">
+  	<meta property="og:image:alt" content="PopCritic - Movies Reviewed by people, for people">
+  	<meta property="og:site_name" content="PopCritic">
+  	<meta name="twitter:url" content="https://popcritic.web.app">
+  	<meta name="twitter:title" content="PopCritic - Movies Reviewed by people, for people">
+  	<meta name="twitter:description" content="PopCritic is a movie review website which is focussed on various aspects of films and help people find the best film to watch next">
+  	<meta name="twitter:image" content="%PUBLIC_URL%/share.png">
+  	<meta name="twitter:image:alt" content="PopCritic - Movies Reviewed by people, for people">
+  	<meta name="twitter:card" content="summary_large_image">
+  	<meta name="language" content="English">
+  	<meta name="google-site-verification" content="obXyOLCuT6lytSBc-P5VQTNQB-CewAZ_7YnL8RP-XCk" />
+  	<link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/logo192.png">
+  	<link rel="icon" type="image/png" sizes="512x512" href="%PUBLIC_URL%/logo512.png">
     <link rel="shortcut icon" type="image/x-icon" href="%PUBLIC_URL%/logo192.png">
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script src="https://www.google.com/recaptcha/api.js?render=<RECAPTCHA-V3-SITE-KEY>"></script>
     <title>PopCritic - Movies Reviewed by people, for people</title>
     <style>
-    @font-face {
-      font-family: 'Martel Sans';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: local('Martel Sans Regular'), local('MartelSans-Regular'), url(https://fonts.gstatic.com/s/martelsans/v6/h0GsssGi7VdzDgKjM-4d8hjYx-4.woff2) format('woff2');
-      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-    * {
-      font-family: 'Martel Sans', sans-serif !important;
-    }
-    body {
-      margin: 0px;
-      background: #121212
-    }
-    @media only screen and (max-width: 600px) {
-
-    }
+      @font-face {
+        font-family: 'Martel Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('Martel Sans Regular'), local('MartelSans-Regular'), url(https://fonts.gstatic.com/s/martelsans/v6/h0GsssGi7VdzDgKjM-4d8hjYx-4.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      * {
+        font-family: 'Martel Sans', sans-serif !important;
+      }
+      body {
+        margin: 0px;
+        background: #121212
+      }
+      .grecaptcha-badge {
+        visibility: hidden;
+      }
     </style>
   </head>
   <body>
   </body>
+  <script>
+    const sitekey = ""; //Your RECAPTCHA V3 Site Key
+    function getToken() {
+      return new Promise((resolve,reject) => {
+        grecaptcha.ready(function() {
+          grecaptcha.execute(sitekey, {action: 'submit'}).then(function(token) {
+              resolve(token);
+          });
+        });
+      });
+    }
+
+     const constantMock = window.fetch;
+     window.fetch = async function(url,data) {
+      if (url.startsWith("https://popcritic.herokuapp.com") && data && data.method) {
+        var token = await getToken();
+        if (data && data.headers) data.headers = {...data.headers,"g-recaptcha-response": token};
+        else data = {...(data || {}), headers: {"g-recaptcha-response": token}}
+      }
+      return constantMock.apply(this, [url,data])
+     }
+  </script>
 </html>

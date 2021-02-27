@@ -22,6 +22,13 @@ class Movie {
   	else return movie.rows[0];
   }
 
+  static async getReviews(id) {
+    var db = new DB();
+    var reviews = await db.query("SELECT user_id,pic,name,review_id,review_text,rating FROM Reviews NATURAL JOIN Users WHERE movie_id=$1;", [id.toString()]);
+    await db.end();
+    return reviews.rows;
+  }
+
   static async add(id) {
   	var movie = await Movie.fetch(id);
   	var db = new DB();
@@ -41,6 +48,19 @@ class Movie {
   	catch (e) {
   	  throw new Exception(400,"Invalid Movie ID");
   	}
+  }
+
+  static async fetchCast(id) {
+    try {
+      var movie = await axios({
+        url: "https://api.themoviedb.org/3/movie/"+id+"/credits?api_key="+process.env.TMDB,
+        method: "GET"
+      });
+      return movie.data.cast;
+    }
+    catch (e) {
+      throw new Exception(400,"Invalid Movie ID");
+    }
   }
 }
 

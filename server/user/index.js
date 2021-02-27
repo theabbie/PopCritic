@@ -12,12 +12,27 @@ class Exception {
 class User {
   constructor() {}
 
-  static async isValid(token) {
-  	var db = new DB();
-    var isValid = await db.query("SELECT EXISTS(SELECT * FROM Sessions WHERE session_id=$1);",[token]);
+  static async getID(token) {
+    var db = new DB();
+    var ID = await db.query("SELECT * FROM Sessions WHERE session_id=$1;",[token]);
     await db.end();
-    if (!isValid.rows[0].exists) throw new Exception(400,"Invalid Token");
-    else return true;
+    if (ID.rows.length>0) return ID.rows[0].user_id;
+    else throw new Exception(400,"Invalid Token");
+  }
+
+  static async get(id) {
+    var db = new DB();
+    var users = await db.query("SELECT * FROM Users WHERE user_id=$1", [id.toString()]);
+    await db.end();
+    if (users.rows.length==0) throw new Exception(400,"User Doesn't Exist");
+    else return users.rows[0];
+  }
+
+  static async getReviews(id) {
+    var db = new DB();
+    var reviews = await db.query("SELECT movie_id,title,poster,review_id,review_text,rating FROM Reviews NATURAL JOIN Movie WHERE user_id=$1;", [id.toString()]);
+    await db.end();
+    return reviews.rows;
   }
 }
 

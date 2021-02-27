@@ -9,6 +9,7 @@ var DB = require("./DB");
 var CAPTCHA = require("./CAPTCHA");
 var User = require("./user");
 var Movie = require("./movie");
+var Review = require("./review");
 
 var app = express();
 app.use(function(req, res, next) {
@@ -49,11 +50,11 @@ app.get('/callback', async function(req,res) {
 
 app.get('/me', async function(req,res) {
   try {
-    if (!req.header("token")) res.end("Not Logged In");
+    if (!req.header("token")) throw new Exception(400,"Not Logged In");
     var db = new DB();
     var my_data = await db.query("SELECT * FROM Sessions NATURAL JOIN Users WHERE session_id=$1;",[req.header("token")]);
     await db.end();
-    res.json(my_data.rows);
+    res.json(my_data.rows[0]);
   }
   catch (e) {
     if (e instanceof Exception) res.status(e.code).end(e.message);
@@ -87,10 +88,26 @@ app.get('/movies', async function(req,res) {
   }
 });
 
+app.post('/review/:id', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
+    if (!req.body.rating) throw new Exception(400,"Parameter Missing: rating");
+    await CAPTCHA.check(req);
+    var user_id = await User.getID(req.header("token"));
+    await Review.add(req.params.id,user_id,req.body.rating,req.body.review);
+    res.end("Done");
+  }
+  catch (e) {
+    if (e instanceof Exception) res.status(e.code).end(e.message);
+    else res.json(e);
+  }
+});
+
 app.post('/add/:id', async function(req,res) {
   try {
-    if (req.params.id==0) throw new Exception(400,"Invalid Movie ID");
-    await User.isValid(req.header("token"));
+    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
+    await CAPTCHA.check(req);
+    await User.getID(req.header("token"));
     await Movie.add(req.params.id);
     res.end("Done");
   }
@@ -102,18 +119,50 @@ app.post('/add/:id', async function(req,res) {
 
 app.get('/movie/:id', async function(req,res) {
   try {
-    if (req.params.id==0) throw new Exception(400,"Invalid Movie ID");
+    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
     var movie = await Movie.get(req.params.id);
     res.json(movie);
   }
   catch (e) {
-    if (e instanceof Exception) res.status(e.code).end(e.message);
-    else res.json(e);
+    res.status(e.code).end(e.message);
   }
 });
 
-app.get('/debug', async function(req,res) {
-  res.end(req.header("token"));
+app.get('/movie/:id/reviews', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
+    var reviews = await Movie.getReviews(req.params.id);
+    res.json(reviews);
+  }
+  catch (e) {
+    res.status(e.code).end(e.message);
+  }
+});
+
+app.get('/user/:id', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid User ID");
+    var user = await User.get(req.params.id);
+    res.json(user);
+  }
+  catch (e) {
+    res.status(e.code).end(e.message);
+  }
+});
+
+app.get('/user/:id/reviews', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid User ID");
+    var reviews = await User.getReviews(req.params.id);
+    res.json(reviews);
+  }
+  catch (e) {
+    res.status(e.code).end(e.message);
+  }
+});
+
+app.post('/*', async function(req,res) {
+  res.status(404).end("Not Found");
 });
 
 app.get('/*', async function(req,res) {
