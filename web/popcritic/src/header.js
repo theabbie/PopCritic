@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,29 +7,37 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1
+  header: {
+    flexGrow: 1,
+  },
+  bar: {
+    background: 'rgb(30,30,30)'
   },
   title: {
     flexGrow: 1,
     display: 'none',
+    fontSize: 25,
+    fontWeight: "bolder",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
   },
   login: {
+    margin: 20,
+    fontWeight: "bolder",
     [theme.breakpoints.down('sm')]: {
-      padding: '5px',
+      padding: 5,
     },
   },
   search: {
     position: 'relative',
-    borderRadius: '20px',
+    borderRadius: 20,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
@@ -53,9 +61,22 @@ const useStyles = makeStyles((theme) => ({
   inputRoot: {
     color: 'inherit',
   },
+  avatar: {
+    marginRight: 20,
+    border: "2px solid white"
+  },
+  user: {
+    margin: 25
+  },
+  gh: {
+    color: "white",
+    margin: 15,
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
+  },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -71,20 +92,32 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchAppBar() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [profile, setProfile] = useState(1);
+
+  useEffect(() => {
+    fetch("https://popcritic.herokuapp.com/me",{headers: {token: window.localStorage.getItem("token")}}).then(resp => resp.json()).then((data) => setProfile(data)).catch(console.log);
+  },[])
+
+  function search(e) {
+    if (e.keyCode==13) window.location.href="/search/"+e.target.value
+  }
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" style={{ background: '#3c3c3c' }}>
+    <div className={classes.header}>
+      <AppBar position="static" className={classes.bar}>
         <Toolbar>
           <Link href="/">
-          <Avatar alt="PopCritic" src="/header.png" style={{ "margin-right": '20px' }} />
+          <Avatar alt="PopCritic" src="/header.png" className={classes.avatar} />
           </Link>
-          <Typography className={classes.title} variant="h6" noWrap style={{ "font-size": "25px", "font-weight": "bolder" }}>
+          <Typography className={classes.title} variant="h6" noWrap>
             PopCritic
           </Typography>
+          <Link href="https://github.com/theabbie/PopCritic">
+            <GitHubIcon fontSize="large" className={classes.gh} />
+          </Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+            <SearchIcon />
             </div>
             <InputBase
               placeholder="Search Movie"
@@ -93,11 +126,12 @@ export default function SearchAppBar() {
                 input: classes.inputInput,
               }}
               onChange={ (e) => setValue(e.target.value) }
-              onKeyDown={ (e) => {if (e.keyCode==13) window.location.href="/search/"+e.target.value} }
-              inputProps={{ 'aria-label': 'search' }}
+              onKeyDown={search}
             />
           </div>
-          <Button variant="contained" href="http://popcritic.herokuapp.com/login" className={classes.login} style={{ margin: '20px', "font-weight": "bolder" }}>Log In</Button>
+          {
+           profile.pic?<Link href="/me"><Avatar alt="PopCritic" src={ profile?profile.pic:"" } className={classes.user} /></Link>:<Button variant="contained" href="https://popcritic.herokuapp.com/login" className={classes.login}>Log In</Button>
+          }
         </Toolbar>
       </AppBar>
     </div>
