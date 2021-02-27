@@ -10,7 +10,7 @@ PopCritic is a movie review website which is focussed on various aspects of film
 
 ## Overview
 
-![PopCritic Desktop](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/desktop.jpg)
+![PopCritic Desktop](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/desktop.JPG)
 
 ## How To Use?
 
@@ -22,13 +22,13 @@ It allows only single session per user, so, if you log in, all other sessions wi
 
 Once you log in, you will be able to add new movie, to add new movies, Search for it in the search bar,
 
-![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/search.jpg)
+![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/search.JPG)
 
 If you click on any movie, it will be added to the list if not already present, and, you will be redirected to the movie page.
 
 On the movie page, you can post reviews, and a 5-star rating. You can only post 1 review per movie.
 
-![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/review.jpg)
+![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/review.JPG)
 
 All your reviews will appear on your user page.
 
