@@ -5,6 +5,7 @@ import Home from './home';
 import Search from './search';
 import Me from './me';
 import Movie from './movie';
+import People from './people';
 import User from './user';
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -62,6 +63,9 @@ export default function App() {
           </Route>
           <Route path="/movie/:query">
             <Movie />
+          </Route>
+          <Route path="/people/:query">
+            <People />
           </Route>
           <Route path="/user/:query">
             <User />
