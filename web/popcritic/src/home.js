@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  card: {
     maxWidth: 250,
     margin: 20,
     display: "inline-block",
@@ -53,18 +53,18 @@ export default function Home() {
    <div className={classes.container}>
    <CircularProgress style={{ display: movies?"none":"block", margin: "20px auto" }} />
    { movies?movies.map(movie =>
-    <Card className={classes.root}>
+    <Card className={classes.card} key={movie.movie_id}>
         <CardMedia className={classes.media} image={ "https://image.tmdb.org/t/p/w500" + movie.poster } title={ movie.title } />
         <CardContent>
-          <Link href={ "/movie/" + movie.movie_id } color="inherit" style={{ "text-decoration": "none" }}>
+          <Link href={ "/movie/" + movie.movie_id } color="inherit" style={{ textDecoration: "none" }}>
           <Typography gutterBottom variant="h5" component="h2">
           { movie.title }
           </Typography>
           </Link>
-          <Typography variant="body2" color="white" component="p" className={classes.plot}>
+          <Typography variant="body2" component="p" className={classes.plot}>
           { movie.plot.slice(0,100) + "..." }
           </Typography>
-          <Rating readOnly value="5" />
+          <Rating readOnly value={5} />
         </CardContent>
     </Card>
    ):""}

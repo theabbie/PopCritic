@@ -63,7 +63,7 @@ export default function Search() {
   	<CircularProgress style={{ display: movies?"none":"block", margin: "20px auto" }} />
     <List component="nav" className={classes.list} aria-label="mailbox folders">
     { movies?movies.map(x=> (
-      <ListItem button onClick={ () => addMovie(x.id) }>
+      <ListItem button onClick={ () => addMovie(x.id) } key={x.id}>
         <img src={ x.poster_path?("https://image.tmdb.org/t/p/w500"+x.poster_path):"https://via.placeholder.com/400x600" } className={classes.poster} />
         <Typography className={classes.title}>{ x.original_title }</Typography>
         <Typography className={classes.date}>({ x.release_date?x.release_date.split("-")[0]:"" })</Typography>
