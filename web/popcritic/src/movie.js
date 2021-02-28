@@ -6,11 +6,13 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {Helmet} from "react-helmet";
+import Link from '@material-ui/core/Link';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import CreateReview from './createReview';
 import ReviewList from './reviewList';
-
-const tmdb_api_key = ""; //Your TMDB API KEY
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -40,6 +42,20 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       flexWrap: "wrap"
     }
+  },
+  link: {
+    color: "white",
+    padding: 10
+  },
+  list: {
+    display: 'inline-block'
+  },
+  people: {
+    maxWidth: 150,
+    margin: 15,
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 60
+    }
   }
 }));
 
@@ -49,8 +65,6 @@ function toDate(date) {
 
 export default function Movie() {
   const [movie, setMovie] = useState(0);
-  const [imdb,setIMDB] = useState(0);
-  const [cast,setCast] = useState(0);
   const classes = useStyles();
   
   var found = true;
@@ -58,8 +72,6 @@ export default function Movie() {
   useEffect(() => {
   	var query = window.location.pathname.substring(7);
     fetch("https://popcritic.herokuapp.com/movie/"+query).then(resp => resp.json()).then((data) => setMovie(data)).catch(() => {window.location.href="/"});
-    fetch("https://api.themoviedb.org/3/movie/"+query+"?api_key="+tmdb_api_key).then(resp => resp.json()).then((data) => setIMDB(data.imdb_id));
-    fetch("https://api.themoviedb.org/3/movie/"+query+"/credits?api_key="+tmdb_api_key).then(resp => resp.json()).then((data) => setCast(data.cast));
   },[])
 
   return (
@@ -78,15 +90,19 @@ export default function Movie() {
           <Typography variant="subtitle1" gutterBottom className={classes.date}>{ movie?toDate(movie.release_date):"" }</Typography>
           <Typography variant="subtitle1" gutterBottom className={classes.plot}>{ movie?movie.plot:"" }</Typography>
           <Typography variant="h5" gutterBottom className={classes.title}>Cast:</Typography>
-          <Typography variant="subtitle1" gutterBottom className={classes.title}>{ cast?cast.map(x=>x.name).slice(0,5).join(" , "):"" }</Typography>
-          <Button disabled={imdb==0}variant="contained" href={"https://imdb.com/title/"+imdb} className={classes.button}>IMDB</Button>
+          <Typography variant="subtitle1" gutterBottom className={classes.title}>{ movie?movie.cast.map(x=><Link href={"/people/"+x.people_id} className={classes.link}>{x.name}</Link>):"" }</Typography>
+          <Button disabled={!(movie && movie.imdb_id)} variant="contained" href={"https://imdb.com/title/"+movie?movie.imdb_id:""} className={classes.button}>IMDB</Button>
         </Box>
   	</Box>
   	<Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
   		<Box p={1}>
-          <CreateReview />
-          <ReviewList />
-        </Box>
+        <Typography variant="h4" gutterBottom className={classes.title}>Cast:</Typography>
+        <List className={classes.list}>
+          {movie?movie.cast.map(p=>(<Link href={"/people/"+p.people_id}><img className={classes.people} src={"https://image.tmdb.org/t/p/w500"+p.image} /></Link>)):""}
+        </List>
+        <CreateReview />
+        <ReviewList />
+      </Box>
   	</Box>
     </div>
   )

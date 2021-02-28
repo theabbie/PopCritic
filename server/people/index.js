@@ -24,13 +24,19 @@ class People {
 
   static async getReviews(id) {
     var db = new DB();
-    var reviews = await db.query("SELECT user_id,pic,name,review_id,review_text,rating FROM Reviews NATURAL JOIN Users WHERE movie_id=$1;", [id.toString()]);
+    var reviews = await db.query("SELECT user_id,pic,name,review_id,review_text,rating FROM Reviews NATURAL JOIN Users WHERE people_id=$1;", [id.toString()]);
     await db.end();
     return reviews.rows;
   }
 
+  static async getMovies(id) {
+    var db = new DB();
+    var movies = await db.query("SELECT movie_id,title,plot,poster,release_date,role FROM Casting NATURAL JOIN Movie WHERE people_id=$1;", [id.toString()]);
+    await db.end();
+    return movies.rows;
+  }
+
   static async add(id,name,image,profession) {
-  	var movie = await Movie.fetch(id);
   	var db = new DB();
   	await db.query("INSERT INTO People (people_id,name,image,profession) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING;", [id,name,image,profession]);
   	await db.end();

@@ -3,6 +3,7 @@ require('dotenv').config({path: './../.env'});
 var axios = require("axios");
 
 var DB = require("./../DB");
+var People = require("./../people");
 
 class Exception {
   constructor(code,message) {
@@ -29,13 +30,20 @@ class Movie {
     return reviews.rows;
   }
 
+  static async getCast(id) {
+    var db = new DB();
+    var cast = await db.query("SELECT people_id,name,image,profession,role FROM Casting NATURAL JOIN People WHERE movie_id=$1;", [id.toString()]);
+    await db.end();
+    return cast.rows;
+  }
+
   static async add(id) {
   	var movie = await Movie.fetch(id);
     var cast = await Movie.fetchCast(id);
   	var db = new DB();
-  	await db.query("INSERT INTO Movie (movie_id,title,plot,poster,release_date) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING;", [movie.id,movie.original_title,movie.overview,movie.poster_path,movie.release_date]);
+  	await db.query("INSERT INTO Movie (movie_id,title,plot,poster,release_date,imdb_id) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING;", [movie.id,movie.original_title,movie.overview,movie.poster_path,movie.release_date,movie.imdb_id]);
   	for (var people of cast) {
-      await db.query("INSERT INTO People (people_id,name,image,profession) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING;", [people.id,people.name,people.profile_path,people.known_for_department]);
+      await People.add(people.id,people.name,people.profile_path,people.known_for_department);
       await db.query("INSERT INTO Casting (role,people_id,movie_id) VALUES ($1,$2,$3) ON CONFLICT DO NOTHING;", [people.known_for_department,people.id,movie.id]); 
     }
     await db.end();

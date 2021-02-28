@@ -9,6 +9,7 @@ var DB = require("./DB");
 var CAPTCHA = require("./CAPTCHA");
 var User = require("./user");
 var Movie = require("./movie");
+var People = require("./people");
 var Review = require("./review");
 
 var app = express();
@@ -121,6 +122,8 @@ app.get('/movie/:id', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
     var movie = await Movie.get(req.params.id);
+    var cast = await Movie.getCast(req.params.id);
+    movie.cast = cast;
     res.json(movie);
   }
   catch (e) {
@@ -132,6 +135,30 @@ app.get('/movie/:id/reviews', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
     var reviews = await Movie.getReviews(req.params.id);
+    res.json(reviews);
+  }
+  catch (e) {
+    res.status(e.code).end(e.message);
+  }
+});
+
+app.get('/people/:id', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid People ID");
+    var people = await People.get(req.params.id);
+    var movies = await People.getMovies(req.params.id);
+    people.movies = movies;
+    res.json(people);
+  }
+  catch (e) {
+    res.status(e.code).end(e.message);
+  }
+});
+
+app.get('/people/:id/reviews', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid People ID");
+    var reviews = await People.getReviews(req.params.id);
     res.json(reviews);
   }
   catch (e) {
