@@ -38,6 +38,10 @@ All your reviews will appear on your user page.
 * PostgreSQL
 * React.JS
 
+## Entity-Relationship Diagram
+
+![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/ERD.PNG)
+
 ## Try Locally
 
 Go to `web/popcritic` and run,
