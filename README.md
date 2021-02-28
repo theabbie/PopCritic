@@ -40,7 +40,7 @@ All your reviews will appear on your user page.
 
 ## Entity-Relationship Diagram
 
-![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/ERD.PNG)
+![PopCritic Search](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/ERD.png)
 
 ## Try Locally
 
