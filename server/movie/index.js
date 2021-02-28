@@ -31,9 +31,14 @@ class Movie {
 
   static async add(id) {
   	var movie = await Movie.fetch(id);
+    var cast = await Movie.fetchCast(id);
   	var db = new DB();
   	await db.query("INSERT INTO Movie (movie_id,title,plot,poster,release_date) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING;", [movie.id,movie.original_title,movie.overview,movie.poster_path,movie.release_date]);
-  	await db.end();
+  	for (var people of cast) {
+      await db.query("INSERT INTO People (people_id,name,image,profession) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING;", [people.id,people.name,people.profile_path,people.known_for_department]);
+      await db.query("INSERT INTO Casting (role,people_id,movie_id) VALUES ($1,$2,$3) ON CONFLICT DO NOTHING;", [people.known_for_department,people.id,movie.id]); 
+    }
+    await db.end();
   	return true;
   }
 
@@ -56,7 +61,7 @@ class Movie {
         url: "https://api.themoviedb.org/3/movie/"+id+"/credits?api_key="+process.env.TMDB,
         method: "GET"
       });
-      return movie.data.cast;
+      return movie.data.cast.slice(0,5);
     }
     catch (e) {
       throw new Exception(400,"Invalid Movie ID");

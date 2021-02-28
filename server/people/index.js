@@ -29,10 +29,10 @@ class People {
     return reviews.rows;
   }
 
-  static async add(id) {
+  static async add(id,name,image,profession) {
   	var movie = await Movie.fetch(id);
   	var db = new DB();
-  	await db.query("INSERT INTO Movie (movie_id,title,plot,poster,release_date) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING;", [movie.id,movie.original_title,movie.overview,movie.poster_path,movie.release_date]);
+  	await db.query("INSERT INTO People (people_id,name,image,profession) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING;", [id,name,image,profession]);
   	await db.end();
   	return true;
   }
