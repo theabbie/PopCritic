@@ -43,6 +43,13 @@ class People {
   	return true;
   }
 
+  static async postReview(people_id,user_id,rating,review) {
+    var db = new DB();
+    await db.query("INSERT INTO Reviews (review_id,review_text,rating,user_id,people_id) VALUES (default,$1,$2,$3,$4) ON CONFLICT DO NOTHING;", [review,rating,user_id,people_id]);
+    await db.end();
+    return true;
+  }
+
   static async fetch(id) {
   	try {
   	  var movie = await axios({

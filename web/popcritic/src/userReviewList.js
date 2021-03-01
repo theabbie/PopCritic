@@ -56,10 +56,10 @@ export default function UserReviewList(props) {
 
   return (
     <div>
-    <Typography className={classes.heading}>Reviews</Typography>
     <CircularProgress style={{ display: reviews?"none":"block", margin: "20px auto" }} />
+    <Typography className={classes.heading}>Movie Reviews:</Typography>
     <List component="nav" className={classes.list}>
-    { reviews?reviews.map(x=> (
+    { reviews?reviews.movies.map(x=> (
       <ListItem button>
         <Link href={"/movie/"+x.movie_id} className={classes.link}>
         <img src={ x.poster?("https://image.tmdb.org/t/p/w500"+x.poster):"https://via.placeholder.com/400x600" } className={classes.poster} />
@@ -71,6 +71,25 @@ export default function UserReviewList(props) {
         <Typography className={classes.box}><Rating readOnly value={ parseInt(x.rating) } /></Typography>
         </Link>
         <Link href={"/movie/"+x.movie_id} className={classes.link}>
+        <Typography className={classes.text}>{ x.review_text }</Typography>
+        </Link>
+      </ListItem>
+    )):"" }
+    </List>
+    <Typography className={classes.heading}>People Reviews:</Typography>
+    <List component="nav" className={classes.list}>
+    { reviews?reviews.people.map(x=> (
+      <ListItem button>
+        <Link href={"/people/"+x.people_id} className={classes.link}>
+        <img src={ x.image?("https://image.tmdb.org/t/p/w500"+x.image):"https://via.placeholder.com/400x600" } className={classes.poster} />
+        </Link>
+        <Link href={"/people/"+x.people_id} className={classes.link}>
+        <Typography className={classes.text}>{ x.name }</Typography>
+        </Link>
+        <Link href={"/people/"+x.people_id} className={classes.link}>
+        <Typography className={classes.box}><Rating readOnly value={ parseInt(x.rating) } /></Typography>
+        </Link>
+        <Link href={"/people/"+x.people_id} className={classes.link}>
         <Typography className={classes.text}>{ x.review_text }</Typography>
         </Link>
       </ListItem>

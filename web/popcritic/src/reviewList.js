@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ReviewList() {
+export default function ReviewList(props) {
   const classes = useStyles();
 
   const [reviews, setReviews] = useState(0);
 
   useEffect(() => {
-    var query = window.location.pathname.substring(7);
-    fetch("https://popcritic.herokuapp.com/movie/"+query+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
+    var id = window.location.pathname.substring(props.type=="movie"?7:8);
+    fetch("https://popcritic.herokuapp.com/"+props.type+"/"+id+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
   },[])
 
   return (

@@ -28,9 +28,16 @@ class User {
     else return users.rows[0];
   }
 
-  static async getReviews(id) {
+  static async getMovieReviews(id) {
     var db = new DB();
     var reviews = await db.query("SELECT movie_id,title,poster,review_id,review_text,rating FROM Reviews NATURAL JOIN Movie WHERE user_id=$1;", [id.toString()]);
+    await db.end();
+    return reviews.rows;
+  }
+
+  static async getPeopleReviews(id) {
+    var db = new DB();
+    var reviews = await db.query("SELECT people_id,name,image,profession,review_id,review_text,rating FROM Reviews NATURAL JOIN People WHERE user_id=$1;", [id.toString()]);
     await db.end();
     return reviews.rows;
   }
