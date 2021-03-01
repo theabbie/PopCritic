@@ -10,7 +10,6 @@ var CAPTCHA = require("./CAPTCHA");
 var User = require("./user");
 var Movie = require("./movie");
 var People = require("./people");
-var Review = require("./review");
 
 var app = express();
 app.use(function(req, res, next) {
@@ -89,21 +88,6 @@ app.get('/movies', async function(req,res) {
   }
 });
 
-app.post('/review/:id', async function(req,res) {
-  try {
-    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
-    if (!req.body.rating) throw new Exception(400,"Parameter Missing: rating");
-    await CAPTCHA.check(req);
-    var user_id = await User.getID(req.header("token"));
-    await Review.add(req.params.id,user_id,req.body.rating,req.body.review);
-    res.end("Done");
-  }
-  catch (e) {
-    if (e instanceof Exception) res.status(e.code).end(e.message);
-    else res.json(e);
-  }
-});
-
 app.post('/add/:id', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
@@ -142,6 +126,21 @@ app.get('/movie/:id/reviews', async function(req,res) {
   }
 });
 
+app.post('/movie/:id/reviews', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid Movie ID");
+    if (!req.body.rating) throw new Exception(400,"Parameter Missing: rating");
+    await CAPTCHA.check(req);
+    var user_id = await User.getID(req.header("token"));
+    await Movie.postReview(req.params.id,user_id,req.body.rating,req.body.review);
+    res.end("Done");
+  }
+  catch (e) {
+    if (e instanceof Exception) res.status(e.code).end(e.message);
+    else res.json(e);
+  }
+});
+
 app.get('/people/:id', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid People ID");
@@ -166,6 +165,21 @@ app.get('/people/:id/reviews', async function(req,res) {
   }
 });
 
+app.post('/people/:id/reviews', async function(req,res) {
+  try {
+    if (req.params.id.length==0) throw new Exception(400,"Invalid People ID");
+    if (!req.body.rating) throw new Exception(400,"Parameter Missing: rating");
+    await CAPTCHA.check(req);
+    var user_id = await User.getID(req.header("token"));
+    await People.postReview(req.params.id,user_id,req.body.rating,req.body.review);
+    res.end("Done");
+  }
+  catch (e) {
+    if (e instanceof Exception) res.status(e.code).end(e.message);
+    else res.json(e);
+  }
+});
+
 app.get('/user/:id', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid User ID");
@@ -180,8 +194,9 @@ app.get('/user/:id', async function(req,res) {
 app.get('/user/:id/reviews', async function(req,res) {
   try {
     if (req.params.id.length==0) throw new Exception(400,"Invalid User ID");
-    var reviews = await User.getReviews(req.params.id);
-    res.json(reviews);
+    var movies = await User.getMovieReviews(req.params.id);
+    var people = await User.getPeopleReviews(req.params.id);
+    res.json({ movies, people });
   }
   catch (e) {
     res.status(e.code).end(e.message);

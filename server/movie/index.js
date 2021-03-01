@@ -37,6 +37,13 @@ class Movie {
     return cast.rows;
   }
 
+  static async postReview(movie_id,user_id,rating,review) {
+    var db = new DB();
+    await db.query("INSERT INTO Reviews (review_id,review_text,rating,user_id,movie_id) VALUES (default,$1,$2,$3,$4) ON CONFLICT DO NOTHING;", [review,rating,user_id,movie_id]);
+    await db.end();
+    return true;
+  }
+
   static async add(id) {
   	var movie = await Movie.fetch(id);
     var cast = await Movie.fetchCast(id);
@@ -69,7 +76,7 @@ class Movie {
         url: "https://api.themoviedb.org/3/movie/"+id+"/credits?api_key="+process.env.TMDB,
         method: "GET"
       });
-      return movie.data.cast.slice(0,5);
+      return movie.data.cast.slice(0,10);
     }
     catch (e) {
       throw new Exception(400,"Invalid Movie ID");

@@ -94,14 +94,18 @@ export default function Movie() {
           <Button disabled={!(movie && movie.imdb_id)} variant="contained" href={"https://imdb.com/title/"+movie?movie.imdb_id:""} className={classes.button}>IMDB</Button>
         </Box>
   	</Box>
-  	<Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
-  		<Box p={1}>
+    <Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
+      <Box p={1}>
         <Typography variant="h4" gutterBottom className={classes.title}>Cast:</Typography>
         <List className={classes.list}>
           {movie?movie.cast.map(p=>(<Link href={"/people/"+p.people_id}><img className={classes.people} src={"https://image.tmdb.org/t/p/w500"+p.image} /></Link>)):""}
         </List>
-        <CreateReview />
-        <ReviewList />
+      </Box>
+    </Box>
+  	<Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
+  		<Box p={1}>
+        <CreateReview type="movie" />
+        <ReviewList type="movie" />
       </Box>
   	</Box>
     </div>

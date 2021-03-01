@@ -86,12 +86,18 @@ export default function Movie() {
           <Typography variant="h6" gutterBottom className={classes.prof}>{ people?people.profession:"" }</Typography>
         </Box>
   	</Box>
-  	<Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
-  		<Box p={1}>
+    <Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
+      <Box p={1}>
         <Typography variant="h4" gutterBottom className={classes.title}>Movies:</Typography>
         <List className={classes.list}>
           {people?people.movies.map(m=>(<Link href={"/movie/"+m.movie_id}><img className={classes.movies} src={"https://image.tmdb.org/t/p/w500"+m.poster} /></Link>)):""}
         </List>
+      </Box>
+    </Box>
+  	<Box display="flex" className={classes.box} justifyContent="flex-start" m={1} p={1}>
+  		<Box p={1}>
+        <CreateReview type="people" />
+        <ReviewList type="people" />
       </Box>
   	</Box>
     </div>
