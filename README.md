@@ -8,6 +8,8 @@ PopCritic is a movie review website which is focussed on various aspects of film
 
 [popcritic.web.app](https://popcritic.web.app)
 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/5985/badge)](https://bestpractices.coreinfrastructure.org/projects/5985)
+
 ## Overview
 
 ![PopCritic Desktop](https://raw.githubusercontent.com/theabbie/PopCritic/master/Images/desktop.JPG)
