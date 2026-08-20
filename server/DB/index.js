@@ -1,5 +1,5 @@
 require('dotenv').config({path: './../.env'});
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
 class Exception {
   constructor(code,message) {
@@ -8,17 +8,21 @@ class Exception {
   }
 }
 
+// Shared connection pool (module-level) instead of a fresh Client per request.
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+  max: 5,
+  idleTimeoutMillis: 30000
+});
+
 class DB {
   constructor() {
-  	this.client = new Client({
-      connectionString: process.env.DATABASE_URL,
-  	  ssl: { rejectUnauthorized: false }
-	  });
-	  this.client.connect();
+    this.client = pool;
   }
 
   async query(query,params) {
-  	try {
+    try {
       return await this.client.query(query,params);
     }
     catch (e) {
@@ -27,7 +31,7 @@ class DB {
   }
 
   async end() {
-  	await this.client.end();
+    // no-op: connections are returned to the shared pool automatically
   }
 }
 

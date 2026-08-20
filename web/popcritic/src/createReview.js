@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 function postReview(rating,review,type) {
   var id = window.location.pathname.substring(type=="movie"?7:8);
-  fetch("https://popcritic.herokuapp.com/"+type+"/"+id+"/reviews",{method: "POST", body: JSON.stringify({ rating, review }), headers: {'Content-Type': "application/json", token: window.localStorage.getItem("token")}}).then(x=>x.text()).then(function() {
+  fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/"+type+"/"+id+"/reviews",{method: "POST", body: JSON.stringify({ rating, review }), headers: {'Content-Type': "application/json", token: window.localStorage.getItem("token")}}).then(x=>x.text()).then(function() {
   	window.location.reload();
   }).catch(console.log);
 }

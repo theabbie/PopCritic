@@ -211,4 +211,7 @@ app.get('/*', async function(req,res) {
   res.status(404).end("Not Found");
 });
 
-app.listen(process.env.PORT || 8080);
+// Vercel imports the app as a serverless function; listen only when run directly
+if (require.main === module) app.listen(process.env.PORT || 8080);
+
+module.exports = app;

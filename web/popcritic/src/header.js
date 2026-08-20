@@ -95,7 +95,7 @@ export default function SearchAppBar() {
   const [profile, setProfile] = useState(1);
 
   useEffect(() => {
-    fetch("https://popcritic.herokuapp.com/me",{headers: {token: window.localStorage.getItem("token")}}).then(resp => resp.json()).then((data) => setProfile(data)).catch(console.log);
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/me",{headers: {token: window.localStorage.getItem("token")}}).then(resp => resp.json()).then((data) => setProfile(data)).catch(console.log);
   },[])
 
   function search(e) {
@@ -130,7 +130,7 @@ export default function SearchAppBar() {
             />
           </div>
           {
-           profile.pic?<Link href="/me"><Avatar alt="PopCritic" src={ profile?profile.pic:"" } className={classes.user} /></Link>:<Button variant="contained" href="https://popcritic.herokuapp.com/login" className={classes.login}>Log In</Button>
+           profile.pic?<Link href="/me"><Avatar alt="PopCritic" src={ profile?profile.pic:"" } className={classes.user} /></Link>:<Button variant="contained" href="https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/login" className={classes.login}>Log In</Button>
           }
         </Toolbar>
       </AppBar>

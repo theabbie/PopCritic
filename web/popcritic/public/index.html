@@ -35,7 +35,7 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <script src="https://www.google.com/recaptcha/api.js?render=<RECAPTCHA-V3-SITE-KEY>" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeOa1waAAAAABjCBSs5cRi3-iv8DtrOmNhvgubz" async defer></script>
     <title>PopCritic - Movies Reviewed by people, for people</title>
     <style>
       @font-face {
@@ -61,7 +61,7 @@
   <body>
   </body>
   <script>
-    const sitekey = ""; //Your RECAPTCHA V3 Site Key
+    const sitekey = "6LeOa1waAAAAABjCBSs5cRi3-iv8DtrOmNhvgubz";
     function getToken() {
       return new Promise((resolve,reject) => {
         grecaptcha.ready(function() {
@@ -74,7 +74,7 @@
 
      const constantMock = window.fetch;
      window.fetch = async function(url,data) {
-      if (url.startsWith("https://popcritic.herokuapp.com") && data && data.method) {
+      if (url.startsWith("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app") && data && data.method) {
         var token = await getToken();
         if (data && data.headers) data.headers = {...data.headers,"g-recaptcha-response": token};
         else data = {...(data || {}), headers: {"g-recaptcha-response": token}}

@@ -52,7 +52,7 @@ export default function ReviewList(props) {
 
   useEffect(() => {
     var id = window.location.pathname.substring(props.type=="movie"?7:8);
-    fetch("https://popcritic.herokuapp.com/"+props.type+"/"+id+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/"+props.type+"/"+id+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
   },[])
 
   return (
