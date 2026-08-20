@@ -49,7 +49,7 @@ export default function User() {
 
   useEffect(() => {
     var id = window.location.pathname.substring(6);
-    fetch("https://popcritic.herokuapp.com/user/"+id).then(resp => resp.json()).then((data) => setProfile(data)).catch(console.log);
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/user/"+id).then(resp => resp.json()).then((data) => setProfile(data)).catch(console.log);
   },[])
 
   return (

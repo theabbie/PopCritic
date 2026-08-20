@@ -71,7 +71,7 @@ export default function Movie() {
 
   useEffect(() => {
   	var query = window.location.pathname.substring(7);
-    fetch("https://popcritic.herokuapp.com/movie/"+query).then(resp => resp.json()).then((data) => setMovie(data)).catch(() => {window.location.href="/"});
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/movie/"+query).then(resp => resp.json()).then((data) => setMovie(data)).catch(() => {window.location.href="/"});
   },[])
 
   return (

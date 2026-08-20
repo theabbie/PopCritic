@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function addMovie(id) {
-  fetch("https://popcritic.herokuapp.com/add/"+id,{method: "POST", headers: {token: window.localStorage.getItem("token")}}).then(x=>x.text()).then(function() {
+  fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/add/"+id,{method: "POST", headers: {token: window.localStorage.getItem("token")}}).then(x=>x.text()).then(function() {
   	window.location.href = "/movie/"+id;
   }).catch(console.log);
 }

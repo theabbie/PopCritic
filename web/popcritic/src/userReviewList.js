@@ -51,7 +51,7 @@ export default function UserReviewList(props) {
 
   useEffect(() => {
     var query = props.id || window.location.pathname.substring(6);
-    fetch("https://popcritic.herokuapp.com/user/"+query+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/user/"+query+"/reviews").then(resp => resp.json()).then((data) => setReviews(data));
   },[])
 
   return (

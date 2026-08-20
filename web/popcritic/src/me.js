@@ -47,7 +47,7 @@ export default function Me() {
   const classes = useStyles();
 
   useEffect(() => {
-    fetch("https://popcritic.herokuapp.com/me",{headers: {token: window.localStorage.getItem("token")}}).then(resp => resp.json()).then((data) => setProfile(data)).catch(() => window.location.href="/");
+    fetch("https://popcritic-abhishek-chaudharys-projects-c6a02206.vercel.app/me",{headers: {token: window.localStorage.getItem("token")}}).then(resp => resp.json()).then((data) => setProfile(data)).catch(() => window.location.href="/");
   },[])
 
   function logOut() {
